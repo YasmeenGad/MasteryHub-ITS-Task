@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "50374203230",
+    "project_id": "masteryhub-its-task",
+    "storage_bucket": "masteryhub-its-task.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50374203230:android:463099be3912566865e1cf",
+        "android_client_info": {
+          "package_name": "com.example.mastery_hub_its_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBco6eeidmJcyOexW82CXrU0upOm_zVgXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
