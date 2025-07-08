@@ -7,16 +7,16 @@ final class AuthViewModelInitial extends AuthViewModelState {}
 
 /* sign up states */
 
-final class SignUpLoading extends AuthViewModelCubit {}
+final class SignUpLoading extends AuthViewModelState {}
 
-final class SignUpSuccess extends AuthViewModelCubit {
+final class SignUpSuccess extends AuthViewModelState {
   final UserEntity user;
 
   SignUpSuccess(this.user);
 }
 
-final class SignUpFailure extends AuthViewModelCubit {
-  final String failureMessage;
+final class SignUpFailure extends AuthViewModelState {
+  final Exception failureMessage;
 
   SignUpFailure(this.failureMessage);
 }

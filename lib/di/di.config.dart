@@ -40,7 +40,6 @@ extension GetItInjectableX on _i174.GetIt {
     final networkFactory = _$NetworkFactory();
     gh.factory<_i361.LogInterceptor>(
         () => networkFactory.providerInterceptor());
-    gh.factory<_i448.AuthViewModelCubit>(() => _i448.AuthViewModelCubit());
     gh.lazySingleton<_i361.Dio>(() => networkFactory.provideDio());
     gh.factory<_i681.AuthRemoteDataSource>(
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
@@ -50,6 +49,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i317.SignInUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i548.SignUpUseCase>(
         () => _i548.SignUpUseCase(gh<_i665.AuthRepo>()));
+    gh.factory<_i448.AuthViewModelCubit>(
+        () => _i448.AuthViewModelCubit(gh<_i548.SignUpUseCase>()));
     return this;
   }
 }
