@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
 class AuthFooter extends StatelessWidget {
-  const AuthFooter({super.key});
+  const AuthFooter(
+      {super.key,
+      required this.leadingText,
+      required this.actionText,
+      this.onPressed});
+
+  final String leadingText;
+  final String actionText;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text.rich(
-        const TextSpan(
-          text: "Already have an account? ",
+        TextSpan(
+          text: leadingText,
           children: [
             TextSpan(
-              text: "Sign in",
+              text: actionText,
               style: TextStyle(color: Color(0xFF00BF6D)),
             ),
           ],

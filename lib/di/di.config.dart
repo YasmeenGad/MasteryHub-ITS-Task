@@ -52,8 +52,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i317.SignInUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i548.SignUpUseCase>(
         () => _i548.SignUpUseCase(gh<_i665.AuthRepo>()));
-    gh.factory<_i448.AuthViewModelCubit>(
-        () => _i448.AuthViewModelCubit(gh<_i548.SignUpUseCase>()));
+    gh.factory<_i448.AuthViewModelCubit>(() => _i448.AuthViewModelCubit(
+          gh<_i548.SignUpUseCase>(),
+          gh<_i317.SignInUseCase>(),
+        ));
     return this;
   }
 }

@@ -5,25 +5,24 @@ import 'package:mastery_hub_its_task/features/auth/presentation/viewModel/auth_v
 import 'package:mastery_hub_its_task/features/auth/presentation/widgets/auth_header.dart';
 
 import '../../../../di/di.dart';
+import '../widgets/custom_login_text_field_section.dart';
 import '../widgets/custom_signup_text_form_field_section.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _userNameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final AuthViewModelCubit _viewModel;
 
   @override
   void initState() {
-    _userNameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _viewModel = getIt.get<AuthViewModelCubit>();
@@ -37,23 +36,25 @@ class _SignUpViewState extends State<SignUpView> {
       child: BlocListener<AuthViewModelCubit, AuthViewModelState>(
         listener: (context, state) {
           switch (state) {
-            case SignUpLoading():
+            case SignInLoading():
               return aweSnackBar(
-                title: 'Creating your account...',
-                msg: 'Please wait while we set things up for you.',
+                title: 'Signing you in...',
+                msg: 'Please wait while we log you into your account.',
                 context: context,
                 type: MessageTypeConst.help,
               );
-            case SignUpSuccess():
+
+            case SignInSuccess():
               return aweSnackBar(
-                title: 'Account Created',
-                msg: 'Your account has been successfully created.',
+                title: 'Welcome back!',
+                msg: 'You have successfully signed in.',
                 context: context,
                 type: MessageTypeConst.success,
               );
-            case SignUpFailure():
+
+            case SignInFailure():
               return aweSnackBar(
-                title: 'Oops! Something went wrong',
+                title: 'Sign in failed',
                 msg: state.failureMessage.toString(),
                 context: context,
                 type: MessageTypeConst.failure,
@@ -68,12 +69,11 @@ class _SignUpViewState extends State<SignUpView> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                const AuthHeader(text: 'Sign Up'),
+                const AuthHeader(text: 'Sign In'),
                 Form(
                   key: _formKey,
-                  child: CustomSignUpTextFormFieldSection(
+                  child: CustomSignInTextFormFieldSection(
                     formKey: _formKey,
-                    userNameController: _userNameController,
                     emailController: _emailController,
                     passwordController: _passwordController,
                     viewModel: _viewModel,

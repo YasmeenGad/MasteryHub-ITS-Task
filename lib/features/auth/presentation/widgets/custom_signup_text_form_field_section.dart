@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mastery_hub_its_task/core/utils/extension/navigation.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../../core/utils/widgets/app_text_form_field.dart';
 import '../../../../core/utils/widgets/buttons/custom_button.dart';
@@ -7,14 +9,14 @@ import '../viewModel/auth_action.dart';
 import '../viewModel/auth_view_model_cubit.dart';
 import 'auth_footer.dart';
 
-class CustomTextFormFieldSection extends StatelessWidget {
+class CustomSignUpTextFormFieldSection extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController userNameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final AuthViewModelCubit viewModel;
 
-  const CustomTextFormFieldSection({
+  const CustomSignUpTextFormFieldSection({
     super.key,
     required this.formKey,
     required this.userNameController,
@@ -73,7 +75,13 @@ class CustomTextFormFieldSection extends StatelessWidget {
             },
           ),
         ),
-        const AuthFooter(),
+        AuthFooter(
+          onPressed: () {
+            context.pushReplacementNamed(AppRoutes.login);
+          },
+          actionText: 'Sign In',
+          leadingText: 'Already have an account?',
+        ),
       ],
     );
   }
