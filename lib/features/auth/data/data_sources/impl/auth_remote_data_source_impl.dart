@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../models/response/user_model.dart';
 import '../contracts/auth_remote_data_source.dart';
 
+@Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _auth;
 
+  @factoryMethod
   const AuthRemoteDataSourceImpl(this._auth);
 
   @override
