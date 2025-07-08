@@ -1,68 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:mastery_hub_its_task/core/utils/validators.dart';
-import 'package:mastery_hub_its_task/core/utils/widgets/buttons/custom_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mastery_hub_its_task/core/utils/widgets/base/snack_bar.dart';
+import 'package:mastery_hub_its_task/features/auth/presentation/viewModel/auth_view_model_cubit.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/widgets/auth_header.dart';
 
-import '../../../../core/utils/widgets/app_text_form_field.dart';
-import '../widgets/auth_footer.dart';
+import '../../../../di/di.dart';
+import '../widgets/custom_text_form_field_section.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
   final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _userNameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final AuthViewModelCubit _viewModel;
 
-  SignUpView({super.key});
+  @override
+  void initState() {
+    _userNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _viewModel = getIt.get<AuthViewModelCubit>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraints) {
-          return SingleChildScrollView(
+    return BlocProvider(
+      create: (_) => _viewModel,
+      child: BlocListener<AuthViewModelCubit, AuthViewModelState>(
+        listener: (context, state) {
+          switch (state) {
+            case SignUpLoading():
+              return aweSnackBar(
+                title: 'Creating your account...',
+                msg: 'Please wait while we set things up for you.',
+                context: context,
+                type: MessageTypeConst.help,
+              );
+            case SignUpSuccess():
+              return aweSnackBar(
+                title: 'Account Created',
+                msg: 'Your account has been successfully created.',
+                context: context,
+                type: MessageTypeConst.success,
+              );
+            case SignUpFailure():
+              return aweSnackBar(
+                title: 'Oops! Something went wrong',
+                msg: state.failureMessage.toString(),
+                context: context,
+                type: MessageTypeConst.failure,
+              );
+            default:
+              return;
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
                 const AuthHeader(text: 'Sign Up'),
                 Form(
                   key: _formKey,
-                  child: Column(
-                    children: [
-                      CustomTextFormField(
-                          hintText: 'Username',
-                          validator: (value) {
-                            return Validators.validateNotEmpty(
-                              context: context,
-                              title: 'Username',
-                              value: value,
-                            );
-                          }),
-                      const SizedBox(height: 16.0),
-                      CustomTextFormField(
-                          hintText: 'Email',
-                          validator: (value) {
-                            return Validators.validateEmail(value, context);
-                          }),
-                      const SizedBox(height: 16.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: CustomTextFormField(
-                            hintText: 'Password',
-                            obscureText: true,
-                            validator: (value) {
-                              return Validators.validatePassword(
-                                  value, context);
-                            }),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: CustomButton(text: 'Sign Up')),
-                      AuthFooter(),
-                    ],
+                  child: CustomTextFormFieldSection(
+                    formKey: _formKey,
+                    userNameController: _userNameController,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    viewModel: _viewModel,
                   ),
                 ),
               ],
             ),
-          );
-        }),
+          ),
+        ),
       ),
     );
   }

@@ -25,6 +25,7 @@ import '../features/auth/domain/use_cases/signin_usecase.dart' as _i317;
 import '../features/auth/domain/use_cases/signup_usecase.dart' as _i548;
 import '../features/auth/presentation/viewModel/auth_view_model_cubit.dart'
     as _i448;
+import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -38,9 +39,11 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final networkFactory = _$NetworkFactory();
+    final firebaseModule = _$FirebaseModule();
     gh.factory<_i361.LogInterceptor>(
         () => networkFactory.providerInterceptor());
     gh.lazySingleton<_i361.Dio>(() => networkFactory.provideDio());
+    gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
     gh.factory<_i681.AuthRemoteDataSource>(
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
     gh.factory<_i665.AuthRepo>(
@@ -56,3 +59,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$NetworkFactory extends _i377.NetworkFactory {}
+
+class _$FirebaseModule extends _i946.FirebaseModule {}
