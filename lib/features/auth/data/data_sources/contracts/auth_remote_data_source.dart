@@ -1,4 +1,4 @@
-import '../../models/user_model.dart';
+import '../../models/response/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> signUp(

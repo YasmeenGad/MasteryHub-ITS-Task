@@ -1,4 +1,4 @@
-import 'package:mastery_hub_its_task/features/auth/data/models/user_model.dart';
+import 'package:mastery_hub_its_task/features/auth/data/models/response/user_model.dart';
 
 import '../../domain/entities/response/user_entity.dart';
 
