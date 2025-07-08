@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mastery_hub_its_task/features/auth/data/mapper/auth_mapper.dart';
-import 'package:mastery_hub_its_task/features/auth/domain/entities/response/user_entity.dart';
 
 import '../../models/user_model.dart';
 import '../contracts/auth_remote_data_source.dart';
@@ -11,24 +9,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl(this._auth);
 
   @override
-  Future<UserEntity> signIn(String email, String password) async {
+  Future<UserModel> signIn(
+      {required String email, required String password}) async {
     final userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    return AuthMapper.toEntity(
-        UserModel.fromFirebaseUser(userCredential.user!));
+    return UserModel.fromFirebaseUser(userCredential.user!);
   }
 
   @override
-  Future<UserEntity> signUp(
-      String email, String password, String userName) async {
+  Future<UserModel> signUp(
+      {required String email,
+      required String password,
+      required String userName}) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
     await userCredential.user!.updateDisplayName(userName);
-    return AuthMapper.toEntity(
-        UserModel.fromFirebaseUser(userCredential.user!));
+    return UserModel.fromFirebaseUser(userCredential.user!);
   }
 }
