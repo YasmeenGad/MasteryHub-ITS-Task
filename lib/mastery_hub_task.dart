@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ class MasteryHubTask extends StatelessWidget {
                   : const Size(390, 844),
               minTextAdapt: true,
               child: MaterialApp(
-                initialRoute: AppRoutes.login,
+                initialRoute: _getInitialRoute(),
                 debugShowCheckedModeBanner: false,
                 builder: (context, child) {
                   return Scaffold(
@@ -47,4 +48,9 @@ class MasteryHubTask extends StatelessWidget {
       },
     );
   }
+}
+
+String _getInitialRoute() {
+  final bool isLoggedIn = FirebaseAuth.instance.currentUser != null;
+  return isLoggedIn ? AppRoutes.home : AppRoutes.login;
 }
