@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mastery_hub_its_task/core/utils/extension/navigation.dart';
 import 'package:mastery_hub_its_task/core/utils/widgets/base/snack_bar.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/viewModel/auth_view_model_cubit.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/widgets/auth_header.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../di/di.dart';
 import '../widgets/custom_login_text_field_section.dart';
-import '../widgets/custom_signup_text_form_field_section.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -45,12 +46,13 @@ class _LoginViewState extends State<LoginView> {
               );
 
             case SignInSuccess():
-              return aweSnackBar(
+              aweSnackBar(
                 title: 'Welcome back!',
                 msg: 'You have successfully signed in.',
                 context: context,
                 type: MessageTypeConst.success,
               );
+              context.pushReplacementNamed(AppRoutes.home);
 
             case SignInFailure():
               return aweSnackBar(

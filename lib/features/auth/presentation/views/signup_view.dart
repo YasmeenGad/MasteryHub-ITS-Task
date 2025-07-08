@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mastery_hub_its_task/core/utils/extension/navigation.dart';
 import 'package:mastery_hub_its_task/core/utils/widgets/base/snack_bar.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/viewModel/auth_view_model_cubit.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/widgets/auth_header.dart';
-
+import '../../../../core/routes/app_routes.dart';
 import '../../../../di/di.dart';
 import '../widgets/custom_signup_text_form_field_section.dart';
 
@@ -45,12 +46,13 @@ class _SignUpViewState extends State<SignUpView> {
                 type: MessageTypeConst.help,
               );
             case SignUpSuccess():
-              return aweSnackBar(
+              aweSnackBar(
                 title: 'Account Created',
                 msg: 'Your account has been successfully created.',
                 context: context,
                 type: MessageTypeConst.success,
               );
+              context.pushReplacementNamed(AppRoutes.login);
             case SignUpFailure():
               return aweSnackBar(
                 title: 'Oops! Something went wrong',
