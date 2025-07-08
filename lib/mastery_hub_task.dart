@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mastery_hub_its_task/core/utils/extension/media_query_values.dart';
-
 import 'core/routes/app_routes.dart';
 import 'core/services/connectivity_controller.dart';
 import 'core/styles/colors/my_colors.dart';
