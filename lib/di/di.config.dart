@@ -14,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../core/networking/api/api_manager.dart' as _i282;
 import '../core/networking/network_factory.dart' as _i377;
 import '../features/auth/data/data_sources/contracts/auth_remote_data_source.dart'
     as _i681;
@@ -25,6 +26,10 @@ import '../features/auth/domain/use_cases/signin_usecase.dart' as _i317;
 import '../features/auth/domain/use_cases/signup_usecase.dart' as _i548;
 import '../features/auth/presentation/viewModel/auth_view_model_cubit.dart'
     as _i448;
+import '../features/home/data/data_sources/online/contracts/get_books_online_data_source.dart'
+    as _i16;
+import '../features/home/data/data_sources/online/impl/get_books_online_data_source_impl.dart'
+    as _i673;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -44,6 +49,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => networkFactory.providerInterceptor());
     gh.lazySingleton<_i361.Dio>(() => networkFactory.provideDio());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
+    gh.singleton<_i282.ApiManager>(() => _i282.ApiManager(gh<_i361.Dio>()));
+    gh.factory<_i16.GetBooksOnlineDataSource>(
+        () => _i673.GetBooksOnlineDataSourceImpl(gh<_i282.ApiManager>()));
     gh.factory<_i681.AuthRemoteDataSource>(
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
     gh.factory<_i665.AuthRepo>(
