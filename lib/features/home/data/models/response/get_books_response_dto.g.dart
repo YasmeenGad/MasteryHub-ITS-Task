@@ -19,7 +19,7 @@ GetBooksResponseDto _$GetBooksResponseDtoFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$GetBooksResponseDtoToJson(
-    GetBooksResponseDto instance) =>
+        GetBooksResponseDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

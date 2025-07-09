@@ -15,7 +15,7 @@ class NoNetworkScreen extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color(0xFFD21E6A), Color(0xFFF9ECF0)],
+              colors: [Color(0xFF00BF6D), Color(0xFFB2F1DA)],
             ),
           ),
           child: Column(

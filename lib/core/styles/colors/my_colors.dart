@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 class MyColors {
+  static const Color primaryColor = Color(0xff00BF6D);
   static const gray = Color(0xff535353);
   static const Color gray30 = Color(0xff878787);
   static const Color placeHolder = Color(0xffA6A6A6);
