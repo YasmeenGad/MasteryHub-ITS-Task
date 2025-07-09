@@ -3,7 +3,7 @@ class GetBooksResponseEntity {
   final int? totalItems;
   final List<GetBooksResponseEntityItems?>? items;
 
-  GetBooksResponseEntity(this.kind, this.totalItems, this.items);
+  GetBooksResponseEntity({this.kind, this.totalItems, this.items});
 }
 
 class GetBooksResponseEntityItems {
