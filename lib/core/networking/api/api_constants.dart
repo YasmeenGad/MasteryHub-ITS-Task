@@ -1,4 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = "https://library-api.postmanlabs.com/";
-  static const String getBooks = "books";
+  static const String baseUrl = "https://www.googleapis.com/books/v1/";
+  static const String getBooks =
+      "volumes?Filtering=free-ebooks&Sorting=newest &q=computer science";
 }

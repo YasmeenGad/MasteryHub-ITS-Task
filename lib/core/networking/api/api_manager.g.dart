@@ -10,7 +10,7 @@ part of 'api_manager.dart';
 
 class _ApiManager implements ApiManager {
   _ApiManager(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://library-api.postmanlabs.com/';
+    baseUrl ??= 'https://www.googleapis.com/books/v1/';
   }
 
   final Dio _dio;
@@ -29,7 +29,7 @@ class _ApiManager implements ApiManager {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'books',
+        'volumes?Filtering=free-ebooks&Sorting=newest &q=computer science',
             queryParameters: queryParameters,
             data: _data,
           )

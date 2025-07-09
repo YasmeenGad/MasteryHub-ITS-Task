@@ -30,6 +30,8 @@ import '../features/home/data/data_sources/online/contracts/get_books_online_dat
     as _i16;
 import '../features/home/data/data_sources/online/impl/get_books_online_data_source_impl.dart'
     as _i673;
+import '../features/home/data/repositories/home_repo_impl.dart' as _i21;
+import '../features/home/domain/contracts/home_repo.dart' as _i950;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -56,6 +58,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
     gh.factory<_i665.AuthRepo>(
         () => _i990.AuthRepoImpl(gh<_i681.AuthRemoteDataSource>()));
+    gh.factory<_i950.HomeRepo>(
+            () => _i21.HomeRepoImpl(gh<_i16.GetBooksOnlineDataSource>()));
     gh.factory<_i317.SignInUseCase>(
         () => _i317.SignInUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i548.SignUpUseCase>(
