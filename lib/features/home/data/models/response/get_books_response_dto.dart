@@ -13,8 +13,14 @@ class GetBooksResponseDto {
   final bool? isPermanentCollection;
   final String? createdAt;
 
-  GetBooksResponseDto(this.id, this.title, this.author, this.genre,
-      this.yearPublished, this.checkedOut, this.isPermanentCollection,
+  GetBooksResponseDto(
+      this.id,
+      this.title,
+      this.author,
+      this.genre,
+      this.yearPublished,
+      this.checkedOut,
+      this.isPermanentCollection,
       this.createdAt);
 
   factory GetBooksResponseDto.fromJson(Map<String, dynamic> json) =>
