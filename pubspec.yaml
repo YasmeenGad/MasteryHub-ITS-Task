@@ -45,12 +45,20 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_bloc: ^9.1.1
   json_annotation: ^4.9.0
+  retrofit: ^4.6.0
+  logger:
+  loading_animation_widget:
+  animate_do:
+  cached_network_image:
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   injectable_generator:
   build_runner:
+  retrofit_generator:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

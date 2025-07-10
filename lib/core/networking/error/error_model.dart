@@ -1,27 +1,62 @@
 class ErrorModel {
+  final int? code;
+  final String? message;
+  final List<ErrorDetail>? errors;
+
   const ErrorModel({
-    this.error,
-    this.stack,});
-
-  final String? error;
-  final String? stack;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['error'] = error;
-    map['stack'] = stack;
-    return map;
-  }
-
-
+    this.code,
+    this.message,
+    this.errors,
+  });
 
   factory ErrorModel.fromMap(Map<String, dynamic> map) {
+    final error = map['error'] as Map<String, dynamic>?;
+
     return ErrorModel(
-      error: map['error'] != null ? map['error'].toString() : 'error',
-      stack: map['stack'] != null ? map['stack'].toString() : 'stack',
+      code: error?['code'] as int?,
+      message: error?['message']?.toString(),
+      errors: (error?['errors'] as List<dynamic>?)
+          ?.map((e) => ErrorDetail.fromMap(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'code': code,
+      'message': message,
+      'errors': errors?.map((e) => e.toJson()).toList(),
+    };
+  }
+
   @override
-  List<Object?> get props =>[error, stack];
+  List<Object?> get props => [code, message, errors];
+}
+
+class ErrorDetail {
+  final String? message;
+  final String? domain;
+  final String? reason;
+
+  const ErrorDetail({
+    this.message,
+    this.domain,
+    this.reason,
+  });
+
+  factory ErrorDetail.fromMap(Map<String, dynamic> map) {
+    return ErrorDetail(
+      message: map['message']?.toString(),
+      domain: map['domain']?.toString(),
+      reason: map['reason']?.toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'domain': domain,
+      'reason': reason,
+    };
+  }
 }

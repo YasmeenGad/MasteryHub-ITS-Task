@@ -17,22 +17,6 @@ abstract class NetworkFactory {
       baseUrl: ApiConstants.baseUrl,
     );
     dio.interceptors.add(getIt<LogInterceptor>());
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          options.headers['Authorization'] =
-              'Bearer ${SharedPrefHelper().getString(key: SharedPrefKeys.tokenKey)}';
-          return handler.next(options);
-        },
-        onError: (error, handler) {
-          if (error.response!= null) {
-            if ( error.response!.statusCode==401) {
-            }
-          }
-          return handler.next(error);
-        },
-      ),
-    );
     return dio;
   }
   LogInterceptor providerInterceptor(){

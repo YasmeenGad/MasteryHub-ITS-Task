@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mastery_hub_its_task/core/networking/common/api_result.dart';
+import 'package:mastery_hub_its_task/core/networking/error/error_model.dart';
+import 'package:mastery_hub_its_task/core/networking/error/firebase_error_handler.dart';
 import 'package:mastery_hub_its_task/features/auth/domain/use_cases/signin_usecase.dart';
 import 'package:mastery_hub_its_task/features/auth/presentation/viewModel/auth_action.dart';
 import 'package:meta/meta.dart';
@@ -64,7 +66,7 @@ class AuthViewModelCubit extends Cubit<AuthViewModelState> {
       case Success<UserEntity>():
         emit(SignInSuccess(response.data));
       case Fail<UserEntity>():
-        emit(SignInFailure(response.exception!));
+        emit(SignInFailure(FirebaseErrorHandler.handle(response.exception!)));
     }
   }
 }

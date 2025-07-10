@@ -30,7 +30,7 @@ final class SignInSuccess extends AuthViewModelState {
 }
 
 final class SignInFailure extends AuthViewModelState {
-  final Exception failureMessage;
+  final ErrorModel failureMessage;
 
   SignInFailure(this.failureMessage);
 }
