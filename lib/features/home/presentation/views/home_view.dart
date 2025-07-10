@@ -49,7 +49,6 @@ class _HomeViewState extends State<HomeView> {
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // ✅ Title & Search
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +71,6 @@ class _HomeViewState extends State<HomeView> {
 
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-                // ✅ Books
                 BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
                   builder: (context, state) {
                     switch (state) {
@@ -98,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                           return const SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(
-                              child: Text("No books found 🥲"),
+                              child: Text("No books found"),
                             ),
                           );
                         }
@@ -110,9 +108,17 @@ class _HomeViewState extends State<HomeView> {
                               (context, index) => FadeInUp(
                                 duration:
                                     Duration(milliseconds: 200 + index * 60),
-                                child: CustomBookCard(
-                                  flag: 'default',
-                                  book: books[index]!,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                      AppRoutes.bookDetails,
+                                      arguments: books[index],
+                                    );
+                                  },
+                                  child: CustomBookCard(
+                                    flag: 'default',
+                                    book: books[index]!,
+                                  ),
                                 ),
                               ),
                               childCount: books.length,
