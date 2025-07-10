@@ -49,7 +49,6 @@ class _HomeViewState extends State<HomeView> {
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // ✅ Title & Search
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +71,6 @@ class _HomeViewState extends State<HomeView> {
 
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-                // ✅ Books
                 BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
                   builder: (context, state) {
                     switch (state) {

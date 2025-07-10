@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
@@ -35,6 +36,17 @@ import '../features/home/domain/contracts/home_repo.dart' as _i950;
 import '../features/home/domain/use_cases/get_books_usecase.dart' as _i755;
 import '../features/home/presentation/viewModel/home_view_model_cubit.dart'
     as _i801;
+import '../features/review/data/data_sources/online/contracts/review_online_data_source.dart'
+    as _i1069;
+import '../features/review/data/data_sources/online/impl/review_online_data_source_impl.dart'
+    as _i93;
+import '../features/review/data/repositories/review_repo_impl.dart' as _i945;
+import '../features/review/domain/contracts/review_repo.dart' as _i768;
+import '../features/review/domain/use_cases/add_review_usecase.dart' as _i115;
+import '../features/review/domain/use_cases/get_book_reviews_usecase.dart'
+    as _i853;
+import '../features/review/presentation/viewModel/review_view_model_cubit.dart'
+    as _i514;
 import '../features/search/data/data_sources/online/contracts/search_online_data_source.dart'
     as _i327;
 import '../features/search/data/data_sources/online/impl/search_online_data_source_impl.dart'
@@ -63,6 +75,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => networkFactory.providerInterceptor());
     gh.lazySingleton<_i361.Dio>(() => networkFactory.provideDio());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+        () => firebaseModule.firebaseFirestore);
     gh.singleton<_i282.ApiManager>(() => _i282.ApiManager(gh<_i361.Dio>()));
     gh.factory<_i16.GetBooksOnlineDataSource>(
         () => _i673.GetBooksOnlineDataSourceImpl(gh<_i282.ApiManager>()));
@@ -70,6 +84,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
     gh.factory<_i665.AuthRepo>(
         () => _i990.AuthRepoImpl(gh<_i681.AuthRemoteDataSource>()));
+    gh.factory<_i1069.ReviewOnlineDataSource>(
+        () => _i93.ReviewOnlineDataSourceImpl(gh<_i974.FirebaseFirestore>()));
     gh.factory<_i950.HomeRepo>(
         () => _i21.HomeRepoImpl(gh<_i16.GetBooksOnlineDataSource>()));
     gh.factory<_i327.SearchOnlineDataSource>(
@@ -80,8 +96,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i548.SignUpUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i755.GetBooksUseCase>(
         () => _i755.GetBooksUseCase(gh<_i950.HomeRepo>()));
+    gh.factory<_i768.ReviewRepo>(
+        () => _i945.ReviewRepoImpl(gh<_i1069.ReviewOnlineDataSource>()));
     gh.factory<_i34.SearchRepo>(
         () => _i176.SearchRepoImpl(gh<_i327.SearchOnlineDataSource>()));
+    gh.factory<_i115.AddReviewUseCase>(
+        () => _i115.AddReviewUseCase(gh<_i768.ReviewRepo>()));
+    gh.factory<_i853.GetBookReviewsUseCase>(
+        () => _i853.GetBookReviewsUseCase(gh<_i768.ReviewRepo>()));
     gh.factory<_i399.SearchUseCase>(
         () => _i399.SearchUseCase(gh<_i34.SearchRepo>()));
     gh.factory<_i801.HomeViewModelCubit>(
@@ -92,6 +114,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i440.SearchViewModelCubit>(
         () => _i440.SearchViewModelCubit(gh<_i399.SearchUseCase>()));
+    gh.factory<_i514.ReviewViewModelCubit>(() => _i514.ReviewViewModelCubit(
+          gh<_i115.AddReviewUseCase>(),
+          gh<_i853.GetBookReviewsUseCase>(),
+        ));
     return this;
   }
 }
