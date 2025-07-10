@@ -6,5 +6,5 @@ class Assets {
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesNetworrk = 'assets/images/networrk.png';
   static const String imagesPageUnderBuild = 'assets/images/page_under_build.jpg';
-
+  static const String imagesSearch = 'assets/images/search.gif';
 }

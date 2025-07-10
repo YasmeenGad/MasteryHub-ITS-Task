@@ -1,13 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mastery_hub_its_task/core/styles/colors/my_colors.dart';
+import 'package:mastery_hub_its_task/core/utils/extension/navigation.dart';
+import 'package:mastery_hub_its_task/core/utils/widgets/custom_search_container.dart';
 import 'package:mastery_hub_its_task/di/di.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_action.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_view_model_cubit.dart';
-import 'package:mastery_hub_its_task/features/home/presentation/widgets/custom_search_container.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/styles/fonts/my_fonts.dart';
 import '../../../../core/utils/widgets/loading_indicator.dart';
 import '../widgets/custom_book_card.dart';
@@ -37,11 +38,17 @@ class _HomeViewState extends State<HomeView> {
         child: Container(
           color: MyColors.white60,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                const SliverToBoxAdapter(child: CustomSearchContainer()),
+                SliverToBoxAdapter(
+                  child: CustomSearchContainer(
+                    onTap: () {
+                      context.pushNamed(AppRoutes.search);
+                    },
+                  ),
+                ),
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
                 BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
                   builder: (context, state) {

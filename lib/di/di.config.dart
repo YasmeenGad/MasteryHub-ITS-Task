@@ -35,6 +35,13 @@ import '../features/home/domain/contracts/home_repo.dart' as _i950;
 import '../features/home/domain/use_cases/get_books_usecase.dart' as _i755;
 import '../features/home/presentation/viewModel/home_view_model_cubit.dart'
     as _i801;
+import '../features/search/data/data_sources/online/contracts/search_online_data_source.dart'
+    as _i327;
+import '../features/search/data/data_sources/online/impl/search_online_data_source_impl.dart'
+    as _i869;
+import '../features/search/data/repositories/search_repo_impl.dart' as _i176;
+import '../features/search/domain/contracts/search_repo.dart' as _i34;
+import '../features/search/domain/use_cases/search_usecase.dart' as _i399;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -63,12 +70,18 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i990.AuthRepoImpl(gh<_i681.AuthRemoteDataSource>()));
     gh.factory<_i950.HomeRepo>(
         () => _i21.HomeRepoImpl(gh<_i16.GetBooksOnlineDataSource>()));
+    gh.factory<_i327.SearchOnlineDataSource>(
+        () => _i869.SearchOnlineDataSourceImpl(gh<_i282.ApiManager>()));
     gh.factory<_i317.SignInUseCase>(
         () => _i317.SignInUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i548.SignUpUseCase>(
         () => _i548.SignUpUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i755.GetBooksUseCase>(
         () => _i755.GetBooksUseCase(gh<_i950.HomeRepo>()));
+    gh.factory<_i34.SearchRepo>(
+        () => _i176.SearchRepoImpl(gh<_i327.SearchOnlineDataSource>()));
+    gh.factory<_i399.SearchUseCase>(
+        () => _i399.SearchUseCase(gh<_i34.SearchRepo>()));
     gh.factory<_i801.HomeViewModelCubit>(
         () => _i801.HomeViewModelCubit(gh<_i755.GetBooksUseCase>()));
     gh.factory<_i448.AuthViewModelCubit>(() => _i448.AuthViewModelCubit(
