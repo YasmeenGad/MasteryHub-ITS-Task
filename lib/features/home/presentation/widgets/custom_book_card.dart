@@ -17,35 +17,60 @@ class CustomBookCard extends StatelessWidget {
     final volume = book.volumeInfo;
     final imageUrl = volume?.imageLinks?.thumbnail;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            width: context.width * 0.4,
-            height: context.height * 0.2,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: MyColors.green.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: SizedBox(
+              height: context.height * 0.18,
+              width: double.infinity,
+              child: imageUrl != null
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Center(child: LoadingIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                  : const Center(child: Icon(Icons.book, size: 40)),
             ),
-            child: imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        Center(child: LoadingIndicator()),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  )
-                : LoadingIndicator()),
-        const SizedBox(height: 6),
-        Text(
-          volume?.title ?? 'No Title',
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: MyFonts.styleRegular400_12.copyWith(color: MyColors.black),
-        ),
-      ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            volume?.title ?? 'No Title',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: MyFonts.styleMedium500_14.copyWith(
+              color: MyColors.primaryColor,
+              height: 1.3,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            volume?.authors?.join(", ") ?? "Unknown Author",
+            style: MyFonts.styleRegular400_12.copyWith(
+              color: Colors.grey[600],
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }

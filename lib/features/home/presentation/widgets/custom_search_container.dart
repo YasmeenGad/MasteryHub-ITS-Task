@@ -12,7 +12,7 @@ class CustomSearchContainer extends StatelessWidget {
       width: context.width,
       height: 50,
       decoration: BoxDecoration(
-        color: MyColors.white60,
+        color: MyColors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
