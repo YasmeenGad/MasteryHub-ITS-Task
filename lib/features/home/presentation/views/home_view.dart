@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastery_hub_its_task/core/styles/colors/my_colors.dart';
 import 'package:mastery_hub_its_task/core/utils/extension/navigation.dart';
 import 'package:mastery_hub_its_task/core/utils/widgets/custom_search_container.dart';
+import 'package:mastery_hub_its_task/core/utils/widgets/error_widget.dart';
 import 'package:mastery_hub_its_task/di/di.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_action.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_view_model_cubit.dart';
@@ -67,6 +68,7 @@ class _HomeViewState extends State<HomeView> {
                               duration:
                                   Duration(milliseconds: 300 + index * 100),
                               child: CustomBookCard(
+                                flag: 'default',
                                 book: state.books.items![index]!,
                               ),
                             ),
@@ -83,16 +85,10 @@ class _HomeViewState extends State<HomeView> {
                       case GetBooksError():
                         return SliverFillRemaining(
                           hasScrollBody: false,
-                          child: Center(
-                            child: Text(
-                              state.failureMessage.message.toString(),
-                              style: MyFonts.styleRegular400_14.copyWith(
-                                color: Colors.redAccent,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
+                            child: CustomErrorWidget(
+                              errorMessage:
+                                  state.failureMessage.message.toString(),
+                            ));
                       default:
                         return const SliverToBoxAdapter(child: SizedBox());
                     }

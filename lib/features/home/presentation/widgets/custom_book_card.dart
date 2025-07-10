@@ -1,16 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mastery_hub_its_task/core/utils/extension/media_query_values.dart';
-import 'package:mastery_hub_its_task/features/home/domain/entities/response/get_books_response_entity.dart';
 
 import '../../../../core/styles/colors/my_colors.dart';
 import '../../../../core/styles/fonts/my_fonts.dart';
 import '../../../../core/utils/widgets/loading_indicator.dart';
 
 class CustomBookCard extends StatelessWidget {
-  final GetBooksResponseEntityItems book;
+  final dynamic book;
+  final String flag; // 'search' or 'default'
 
-  const CustomBookCard({super.key, required this.book});
+  const CustomBookCard({
+    super.key,
+    required this.book,
+    required this.flag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class CustomBookCard extends StatelessWidget {
                       imageUrl: imageUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: LoadingIndicator()),
+                          const Center(child: LoadingIndicator()),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     )
@@ -61,14 +65,17 @@ class CustomBookCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Text(
-            volume?.authors?.join(", ") ?? "Unknown Author",
-            style: MyFonts.styleRegular400_12.copyWith(
-              color: Colors.grey[600],
+
+          /// ✅ هنا الشرط
+          if (flag == 'default')
+            Text(
+              volume?.authors?.join(", ") ?? "Unknown Author",
+              style: MyFonts.styleRegular400_12.copyWith(
+                color: Colors.grey[600],
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
         ],
       ),
     );

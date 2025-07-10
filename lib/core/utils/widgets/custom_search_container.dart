@@ -6,8 +6,16 @@ import '../../styles/colors/my_colors.dart';
 class CustomSearchContainer extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? containerBg;
+  final TextEditingController? controller;
+  final Function(String)? onChanged;
 
-  const CustomSearchContainer({super.key, this.onTap, this.containerBg});
+  const CustomSearchContainer({
+    super.key,
+    this.onTap,
+    this.containerBg,
+    this.controller,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,8 @@ class CustomSearchContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
+            controller: controller,
+            onChanged: onChanged,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               border: InputBorder.none,
