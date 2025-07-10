@@ -37,58 +37,96 @@ class _HomeViewState extends State<HomeView> {
       create: (context) => _viewModel,
       child: SafeArea(
         child: Container(
-          color: MyColors.white60,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFF9FAFB), Color(0xFFEFF1F5)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
+                // ✅ Title & Search
                 SliverToBoxAdapter(
-                  child: CustomSearchContainer(
-                    onTap: () {
-                      context.pushNamed(AppRoutes.search);
-                    },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Discover Books 📖",
+                        style: MyFonts.styleBold700_20.copyWith(
+                          color: MyColors.primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      CustomSearchContainer(
+                        onTap: () {
+                          context.pushNamed(AppRoutes.search);
+                        },
+                      ),
+                    ],
                   ),
                 ),
+
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+                // ✅ Books
                 BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
                   builder: (context, state) {
                     switch (state) {
                       case GetBooksLoading():
                         return SliverFillRemaining(
                           hasScrollBody: false,
-                          child: Center(
-                            child: LoadingIndicator(),
-                          ),
+                          child: Center(child: LoadingIndicator()),
                         );
-                      case GetBooksSuccess():
-                        return SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => FadeInUp(
-                              duration:
-                                  Duration(milliseconds: 300 + index * 100),
-                              child: CustomBookCard(
-                                flag: 'default',
-                                book: state.books.items![index]!,
-                              ),
-                            ),
-                            childCount: state.books.items?.length ?? 0,
-                          ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.68,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                          ),
-                        );
+
                       case GetBooksError():
                         return SliverFillRemaining(
                           hasScrollBody: false,
-                            child: CustomErrorWidget(
-                              errorMessage:
-                                  state.failureMessage.message.toString(),
-                            ));
+                          child: CustomErrorWidget(
+                            errorMessage:
+                                state.failureMessage.message.toString(),
+                          ),
+                        );
+
+                      case GetBooksSuccess():
+                        final books = state.books.items ?? [];
+
+                        if (books.isEmpty) {
+                          return const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: Text("No books found 🥲"),
+                            ),
+                          );
+                        }
+
+                        return SliverPadding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) => FadeInUp(
+                                duration:
+                                    Duration(milliseconds: 200 + index * 60),
+                                child: CustomBookCard(
+                                  flag: 'default',
+                                  book: books[index]!,
+                                ),
+                              ),
+                              childCount: books.length,
+                            ),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                              childAspectRatio: 0.65,
+                            ),
+                          ),
+                        );
+
                       default:
                         return const SliverToBoxAdapter(child: SizedBox());
                     }

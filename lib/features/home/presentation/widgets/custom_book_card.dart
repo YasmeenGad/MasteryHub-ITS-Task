@@ -23,25 +23,32 @@ class CustomBookCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: [Colors.white, MyColors.white60],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 8,
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: SizedBox(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
               height: context.height * 0.18,
               width: double.infinity,
+              decoration: BoxDecoration(
+                color: MyColors.white60,
+              ),
               child: imageUrl != null
                   ? CachedNetworkImage(
                       imageUrl: imageUrl,
@@ -49,32 +56,41 @@ class CustomBookCard extends StatelessWidget {
                       placeholder: (context, url) =>
                           const Center(child: LoadingIndicator()),
                       errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                          const Icon(Icons.broken_image_outlined, size: 40),
                     )
-                  : const Center(child: Icon(Icons.book, size: 40)),
+                  : const Center(
+                      child: Icon(Icons.menu_book_rounded, size: 40)),
             ),
           ),
           const SizedBox(height: 10),
           Text(
             volume?.title ?? 'No Title',
-            overflow: TextOverflow.ellipsis,
             maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: MyFonts.styleMedium500_14.copyWith(
               color: MyColors.primaryColor,
               height: 1.3,
             ),
           ),
-          const SizedBox(height: 4),
-
-          /// ✅ هنا الشرط
+          const SizedBox(height: 6),
           if (flag == 'default')
-            Text(
-              volume?.authors?.join(", ") ?? "Unknown Author",
-              style: MyFonts.styleRegular400_12.copyWith(
-                color: Colors.grey[600],
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.person_outline_rounded,
+                    size: 16, color: Colors.grey),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    volume?.authors?.join(", ") ?? "Unknown Author",
+                    style: MyFonts.styleRegular400_12.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
         ],
       ),
