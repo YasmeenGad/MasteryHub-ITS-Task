@@ -32,6 +32,14 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _viewModel,
