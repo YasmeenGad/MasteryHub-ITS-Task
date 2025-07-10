@@ -23,11 +23,7 @@ class CustomBookCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, MyColors.white60],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: MyColors.white60,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
