@@ -1,33 +1,39 @@
 class ReviewModel {
-  final String bookId;
+  final String reviewId;
   final String userId;
-  final double rating;
+  final String bookId;
   final String comment;
-  final DateTime timestamp;
+  final double rating;
+  final DateTime createdAt;
 
   const ReviewModel({
-    required this.bookId,
+    required this.reviewId,
     required this.userId,
-    required this.rating,
+    required this.bookId,
     required this.comment,
-    required this.timestamp,
+    required this.rating,
+    required this.createdAt,
   });
 
-  factory ReviewModel.fromJson(Map<String, dynamic> json) =>
-      ReviewModel(
-        bookId: json['bookId'],
-        userId: json['userId'],
-        rating: (json['rating'] as num).toDouble(),
-        comment: json['comment'],
-        timestamp: DateTime.parse(json['timestamp']),
-      );
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
+      reviewId: json['reviewId'],
+      userId: json['userId'],
+      bookId: json['bookId'],
+      comment: json['comment'],
+      rating: (json['rating'] as num).toDouble(),
+      createdAt: DateTime.parse(json['createdAt']),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'bookId': bookId,
-        'userId': userId,
-        'rating': rating,
-        'comment': comment,
-        'timestamp': timestamp.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'reviewId': reviewId,
+      'userId': userId,
+      'bookId': bookId,
+      'comment': comment,
+      'rating': rating,
+      'createdAt': createdAt.toIso8601String(),
+    };
+  }
 }

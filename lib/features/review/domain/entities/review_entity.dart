@@ -1,15 +1,17 @@
 class ReviewEntity {
-  final String bookId;
+  final String reviewId;
   final String userId;
-  final double rating;
+  final String bookId;
   final String comment;
-  final DateTime timestamp;
+  final double rating;
+  final DateTime createdAt;
 
   const ReviewEntity({
-    required this.bookId,
+    required this.reviewId,
     required this.userId,
-    required this.rating,
+    required this.bookId,
     required this.comment,
-    required this.timestamp,
+    required this.rating,
+    required this.createdAt,
   });
 }
