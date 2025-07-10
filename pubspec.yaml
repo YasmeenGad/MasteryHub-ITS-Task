@@ -47,6 +47,12 @@ dependencies:
   json_annotation: ^4.9.0
   retrofit: ^4.6.0
   logger:
+  loading_animation_widget:
+  animate_do:
+  cached_network_image:
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

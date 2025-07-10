@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mastery_hub_its_task/core/networking/common/api_result.dart';
+import 'package:mastery_hub_its_task/core/networking/error/api_error_handler.dart';
+import 'package:mastery_hub_its_task/core/networking/error/error_model.dart';
 import 'package:mastery_hub_its_task/features/home/domain/entities/response/get_books_response_entity.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_action.dart';
 import 'package:meta/meta.dart';
@@ -29,7 +31,7 @@ class HomeViewModelCubit extends Cubit<HomeViewModelState> {
       case Success<GetBooksResponseEntity>():
         emit(GetBooksSuccess(result.data));
       case Fail<GetBooksResponseEntity>():
-        emit(GetBooksError(result.exception!));
+        emit(GetBooksError(ApiErrorHandler.handle(result.exception!)));
     }
   }
 }

@@ -29,7 +29,7 @@ class _ApiManager implements ApiManager {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-        'volumes?Filtering=free-ebooks&Sorting=newest &q=computer science',
+            'volumes?Filtering=free-ebooks&Sorting=newest &q=computer science',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -1,45 +1,54 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-
 import 'error_model.dart';
 
-class ErrorHandler {
+class ApiErrorHandler {
   final String errorMessage;
 
-  ErrorHandler(this.errorMessage);
+  ApiErrorHandler(this.errorMessage);
 
   static ErrorModel handle(Exception error) {
     if (error is DioException) {
-      return ErrorHandler.networkError(error, error.response?.statusCode);
+      return ApiErrorHandler.networkError(error, error.response?.statusCode);
     } else if (error is IOException) {
       return const ErrorModel(
-          error: "No internet connection. Please check your settings.");
+        code: 0,
+        message: "No internet connection. Please check your settings.",
+      );
     } else {
       return const ErrorModel(
-          error: "An unknown error occurred. Please try again.");
+        code: 0,
+        message: "An unknown error occurred. Please try again.",
+      );
     }
   }
 
   static ErrorModel serverError(int? statusCode, ErrorModel response) {
+    final fallbackMessage = response.message ??
+        (response.errors?.isNotEmpty == true
+            ? response.errors!.first.message
+            : "An error occurred");
+
     switch (statusCode) {
       case 400:
-        return const ErrorModel(
-            error: "Bad request. Please verify your input and try again.");
+        return ErrorModel(code: 400, message: fallbackMessage);
       case 401:
       case 402:
       case 403:
       case 404:
-        return ErrorModel(error: response.error ?? 'Unauthorized access');
+        return ErrorModel(code: statusCode, message: fallbackMessage);
       case 408:
         return const ErrorModel(
-            error:
+            code: 408,
+            message:
                 "Connection timed out. Please check your internet connection.");
       case 409:
-        return ErrorModel(error: response.error ?? 'Unauthorized access');
+        return ErrorModel(code: 409, message: fallbackMessage);
       default:
-        return const ErrorModel(
-            error: "An unexpected error occurred. Please try again.");
+        return ErrorModel(
+            code: statusCode ?? 0,
+            message: fallbackMessage ??
+                "An unexpected error occurred. Please try again.");
     }
   }
 
@@ -47,26 +56,31 @@ class ErrorHandler {
     switch (statusCode) {
       case 500:
         return const ErrorModel(
-            error: "Internal server error. Please try again later.");
+            code: 500,
+            message: "Internal server error. Please try again later.");
       case 502:
         return const ErrorModel(
-            error: "Bad Gateway. The server received an invalid response.");
+            code: 502,
+            message: "Bad Gateway. The server received an invalid response.");
       case 503:
         return const ErrorModel(
-            error:
+            code: 503,
+            message:
                 "Service Unavailable. The server is currently unable to handle the request.");
       case 504:
         return const ErrorModel(
-            error: "Gateway Timeout. The server took too long to respond.");
+            code: 504,
+            message: "Gateway Timeout. The server took too long to respond.");
       default:
         if (error.response?.data is Map<String, dynamic>) {
           final errorModel =
               ErrorModel.fromMap(error.response!.data as Map<String, dynamic>);
-          return ErrorHandler.serverError(
+          return ApiErrorHandler.serverError(
               error.response?.statusCode, errorModel);
         }
         return const ErrorModel(
-            error: "An unexpected error occurred. Please try again.");
+            code: 0,
+            message: "An unexpected error occurred. Please try again.");
     }
   }
 }

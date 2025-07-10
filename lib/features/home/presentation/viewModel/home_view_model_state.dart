@@ -14,7 +14,7 @@ final class GetBooksSuccess extends HomeViewModelState {
 }
 
 final class GetBooksError extends HomeViewModelState {
-  final Exception failureMessage;
+  final ErrorModel failureMessage;
 
   GetBooksError(this.failureMessage);
 }
