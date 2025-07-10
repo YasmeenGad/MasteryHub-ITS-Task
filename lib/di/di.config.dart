@@ -42,6 +42,8 @@ import '../features/search/data/data_sources/online/impl/search_online_data_sour
 import '../features/search/data/repositories/search_repo_impl.dart' as _i176;
 import '../features/search/domain/contracts/search_repo.dart' as _i34;
 import '../features/search/domain/use_cases/search_usecase.dart' as _i399;
+import '../features/search/presentation/viewModel/search_view_model_cubit.dart'
+    as _i440;
 import 'module.dart' as _i946;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -88,6 +90,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i548.SignUpUseCase>(),
           gh<_i317.SignInUseCase>(),
         ));
+    gh.factory<_i440.SearchViewModelCubit>(
+        () => _i440.SearchViewModelCubit(gh<_i399.SearchUseCase>()));
     return this;
   }
 }
