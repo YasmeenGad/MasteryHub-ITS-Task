@@ -51,6 +51,7 @@ dependencies:
   animate_do:
   cached_network_image:
   flutter_rating_bar:
+  cloud_firestore:
 
 
 
