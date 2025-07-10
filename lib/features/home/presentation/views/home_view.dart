@@ -8,6 +8,7 @@ import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_a
 import 'package:mastery_hub_its_task/features/home/presentation/viewModel/home_view_model_cubit.dart';
 import 'package:mastery_hub_its_task/features/home/presentation/widgets/custom_search_container.dart';
 
+import '../../../../core/styles/fonts/my_fonts.dart';
 import '../../../../core/utils/widgets/loading_indicator.dart';
 import '../widgets/custom_book_card.dart';
 
@@ -32,60 +33,67 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _viewModel,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 16),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: CustomSearchContainer(),
+      child: SafeArea(
+        child: Container(
+          color: MyColors.white60,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: [
+                const SliverToBoxAdapter(child: CustomSearchContainer()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
+                  builder: (context, state) {
+                    switch (state) {
+                      case GetBooksLoading():
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(
+                            child: LoadingIndicator(),
+                          ),
+                        );
+                      case GetBooksSuccess():
+                        return SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => FadeInUp(
+                              duration:
+                                  Duration(milliseconds: 300 + index * 100),
+                              child: CustomBookCard(
+                                book: state.books.items![index]!,
+                              ),
+                            ),
+                            childCount: state.books.items?.length ?? 0,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.68,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                          ),
+                        );
+                      case GetBooksError():
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Center(
+                            child: Text(
+                              state.failureMessage.message.toString(),
+                              style: MyFonts.styleRegular400_14.copyWith(
+                                color: Colors.redAccent,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      default:
+                        return const SliverToBoxAdapter(child: SizedBox());
+                    }
+                  },
+                ),
+              ],
             ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 16,
-              ),
-            ),
-            BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
-                builder: (context, state) {
-              switch (state) {
-                case GetBooksLoading():
-                  return SliverToBoxAdapter(
-                      child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: LoadingIndicator(),
-                  ));
-                case GetBooksSuccess():
-                  return SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => FadeInRight(
-                        duration: const Duration(milliseconds: 500),
-                        child: CustomBookCard(
-                          book: state.books.items![index]!,
-                        ),
-                      ),
-                      childCount: state.books.items?.length ?? 0,
-                    ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.72,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 20,
-                    ),
-                  );
-                case GetBooksError():
-                  return SliverToBoxAdapter(
-                    child: Center(
-                        child: Text(state.failureMessage.message.toString())),
-                  );
-                default:
-                  null;
-              }
-              return SliverToBoxAdapter(
-                child: SizedBox(),
-              );
-            })
-          ],
+          ),
         ),
       ),
     );
