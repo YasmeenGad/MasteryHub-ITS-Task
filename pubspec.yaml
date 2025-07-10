@@ -50,6 +50,7 @@ dependencies:
   loading_animation_widget:
   animate_do:
   cached_network_image:
+  flutter_rating_bar:
 
 
 
