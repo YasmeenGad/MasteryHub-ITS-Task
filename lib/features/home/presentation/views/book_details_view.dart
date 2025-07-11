@@ -5,24 +5,24 @@ import 'package:mastery_hub_its_task/core/styles/colors/my_colors.dart';
 import 'package:mastery_hub_its_task/core/styles/fonts/my_fonts.dart';
 import 'package:mastery_hub_its_task/core/utils/widgets/base/snack_bar.dart';
 import 'package:mastery_hub_its_task/di/di.dart';
-import 'package:mastery_hub_its_task/features/personal%20list/data/mapper/reading_status_mapper.dart';
-import 'package:mastery_hub_its_task/features/personal%20list/domain/entities/reading_status_entity.dart';
-import 'package:mastery_hub_its_task/features/personal%20list/presentation/viewModel/reading_status_action.dart';
-import 'package:mastery_hub_its_task/features/personal%20list/presentation/viewModel/reading_status_view_model_cubit.dart';
+import 'package:mastery_hub_its_task/features/personal list/data/mapper/reading_status_mapper.dart';
+import 'package:mastery_hub_its_task/features/personal list/domain/entities/reading_status_entity.dart';
+import 'package:mastery_hub_its_task/features/personal list/presentation/viewModel/reading_status_action.dart';
+import 'package:mastery_hub_its_task/features/personal list/presentation/viewModel/reading_status_view_model_cubit.dart';
 import 'package:mastery_hub_its_task/features/review/domain/entities/review_entity.dart';
 import 'package:mastery_hub_its_task/features/review/presentation/viewModel/review_action.dart';
 import 'package:mastery_hub_its_task/features/review/presentation/viewModel/review_view_model_cubit.dart';
-
 import '../widgets/book_image_widget.dart';
 import '../widgets/book_info_widget.dart';
 import '../widgets/rating_widget.dart';
-import '../widgets/review_bottom_sheet.dart';
 import '../widgets/review_input_widget.dart';
 import '../widgets/submit_review_button.dart';
 import '../widgets/view_all_reviews_button.dart';
+import '../widgets/review_bottom_sheet.dart';
+import '../widgets/reading_status_menu_button.dart';
 
 class BookDetailsView extends StatefulWidget {
-  final dynamic book; // افتراضي: Google Books style object
+  final dynamic book;
 
   const BookDetailsView({super.key, required this.book});
 
@@ -113,43 +113,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
           style: MyFonts.styleMedium500_16.copyWith(color: Colors.black),
         ),
         actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert_rounded, color: Colors.black),
-            tooltip: "Reading Status",
-            onSelected: _handleReadingStatus,
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 'Want to Read',
-                child: Row(
-                  children: [
-                    Icon(Icons.hourglass_empty, color: Colors.orange),
-                    SizedBox(width: 10),
-                    Text("Want to Read"),
-                  ],
-                ),
-              ),
-              PopupMenuItem(
-                value: 'Currently Reading',
-                child: Row(
-                  children: [
-                    Icon(Icons.menu_book_rounded, color: Colors.blue),
-                    SizedBox(width: 10),
-                    Text("Currently Reading"),
-                  ],
-                ),
-              ),
-              PopupMenuItem(
-                value: 'Finished',
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle_rounded, color: Colors.green),
-                    SizedBox(width: 10),
-                    Text("Finished"),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          ReadingStatusMenuButton(onSelected: _handleReadingStatus),
         ],
       ),
       body: MultiBlocListener(
