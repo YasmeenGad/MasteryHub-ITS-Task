@@ -1,31 +1,25 @@
 class ReadingStatusModel {
-  final String bookId;
   final String userId;
   final String status;
-  final DateTime updatedAt;
+  final Map<String, dynamic> bookData;
 
-  const ReadingStatusModel({
-    required this.bookId,
+  ReadingStatusModel({
     required this.userId,
     required this.status,
-    required this.updatedAt,
+    required this.bookData,
   });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'status': status,
+        'bookData': bookData,
+      };
 
   factory ReadingStatusModel.fromJson(Map<String, dynamic> json) {
     return ReadingStatusModel(
-      bookId: json['bookId'],
       userId: json['userId'],
       status: json['status'],
-      updatedAt: DateTime.parse(json['updatedAt']),
+      bookData: Map<String, dynamic>.from(json['bookData']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'bookId': bookId,
-      'userId': userId,
-      'status': status,
-      'updatedAt': updatedAt.toIso8601String(),
-    };
   }
 }

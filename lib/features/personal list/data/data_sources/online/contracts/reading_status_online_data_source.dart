@@ -1,7 +1,8 @@
-import '../../../models/reading_status_model.dart';
+import '../../../../domain/entities/reading_status_entity.dart';
 
 abstract class ReadingStatusOnlineDataSource {
-  Future<void> updateReadingStatus(ReadingStatusModel model);
+  Future<void> addReadingStatus(ReadingStatusEntity entity);
 
-  Future<List<ReadingStatusModel>> getReadingStatuses(String userId);
+  Future<List<ReadingStatusEntity>> getReadingStatus(
+      String status, String userId);
 }

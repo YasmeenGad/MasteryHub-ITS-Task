@@ -1,13 +1,11 @@
 class ReadingStatusEntity {
-  final String bookId;
   final String userId;
   final String status;
-  final DateTime updatedAt;
+  final Map<String, dynamic> bookData;
 
-  const ReadingStatusEntity({
-    required this.bookId,
+  ReadingStatusEntity({
     required this.userId,
     required this.status,
-    required this.updatedAt,
+    required this.bookData,
   });
 }
