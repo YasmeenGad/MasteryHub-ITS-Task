@@ -35,112 +35,92 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _viewModel,
-      child: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFF9FAFB), Color(0xFFEFF1F5)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+      child: Scaffold(
+        backgroundColor: MyColors.primaryColor.withOpacity(0.03),
+        appBar: AppBar(
+          backgroundColor: MyColors.primaryColor,
+          elevation: 0,
+          titleSpacing: 16,
+          centerTitle: false,
+          title: Text(
+            "📚 Discover Books",
+            style: MyFonts.styleBold700_18.copyWith(color: Colors.white),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () => context.pushNamed(AppRoutes.personalList),
+              icon: const Icon(Icons.menu_book_rounded, color: Colors.white),
+              tooltip: "My Reading List",
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: CustomSearchContainer(
+                onTap: () => context.pushNamed(AppRoutes.search),
+              ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Discover Books 📖",
-                        style: MyFonts.styleBold700_20.copyWith(
-                          color: MyColors.primaryColor,
+        ),
+        body: BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
+          builder: (context, state) {
+            switch (state) {
+              case GetBooksLoading():
+                return const Center(child: LoadingIndicator());
+
+              case GetBooksError():
+                return CustomErrorWidget(
+                  errorMessage: state.failureMessage.message.toString(),
+                );
+
+              case GetBooksSuccess():
+                final books = state.books.items ?? [];
+
+                if (books.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No books found",
+                      style: MyFonts.styleMedium500_16,
+                    ),
+                  );
+                }
+
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: books.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      childAspectRatio: 0.65,
+                    ),
+                    itemBuilder: (context, index) {
+                      return FadeInUp(
+                        duration: Duration(milliseconds: 200 + index * 60),
+                        child: GestureDetector(
+                          onTap: () => context.pushNamed(
+                            AppRoutes.bookDetails,
+                            arguments: books[index],
+                          ),
+                          child: CustomBookCard(
+                            flag: 'default',
+                            book: books[index]!,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      CustomSearchContainer(
-                        onTap: () {
-                          context.pushNamed(AppRoutes.search);
-                        },
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ),
+                );
 
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
-
-                BlocBuilder<HomeViewModelCubit, HomeViewModelState>(
-                  builder: (context, state) {
-                    switch (state) {
-                      case GetBooksLoading():
-                        return SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Center(child: LoadingIndicator()),
-                        );
-
-                      case GetBooksError():
-                        return SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: CustomErrorWidget(
-                            errorMessage:
-                                state.failureMessage.message.toString(),
-                          ),
-                        );
-
-                      case GetBooksSuccess():
-                        final books = state.books.items ?? [];
-
-                        if (books.isEmpty) {
-                          return const SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Center(
-                              child: Text("No books found"),
-                            ),
-                          );
-                        }
-
-                        return SliverPadding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          sliver: SliverGrid(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) => FadeInUp(
-                                duration:
-                                    Duration(milliseconds: 200 + index * 60),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(
-                                      AppRoutes.bookDetails,
-                                      arguments: books[index],
-                                    );
-                                  },
-                                  child: CustomBookCard(
-                                    flag: 'default',
-                                    book: books[index]!,
-                                  ),
-                                ),
-                              ),
-                              childCount: books.length,
-                            ),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 20,
-                              crossAxisSpacing: 20,
-                              childAspectRatio: 0.65,
-                            ),
-                          ),
-                        );
-
-                      default:
-                        return const SliverToBoxAdapter(child: SizedBox());
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+              default:
+                return const SizedBox();
+            }
+          },
         ),
       ),
     );
