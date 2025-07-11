@@ -36,6 +36,20 @@ import '../features/home/domain/contracts/home_repo.dart' as _i950;
 import '../features/home/domain/use_cases/get_books_usecase.dart' as _i755;
 import '../features/home/presentation/viewModel/home_view_model_cubit.dart'
     as _i801;
+import '../features/personal%20list/data/data_sources/online/contracts/reading_status_online_data_source.dart'
+    as _i690;
+import '../features/personal%20list/data/data_sources/online/impl/reading_status_online_data_source_impl.dart'
+    as _i1035;
+import '../features/personal%20list/data/repositories/reading_status_repo_impl.dart'
+    as _i149;
+import '../features/personal%20list/domain/contracts/reading_status_repo.dart'
+    as _i473;
+import '../features/personal%20list/domain/use_cases/add_reading_status_use_case.dart'
+    as _i1042;
+import '../features/personal%20list/domain/use_cases/get_reading_status_usecase.dart'
+    as _i498;
+import '../features/personal%20list/presentation/viewModel/reading_status_view_model_cubit.dart'
+    as _i935;
 import '../features/review/data/data_sources/online/contracts/review_online_data_source.dart'
     as _i1069;
 import '../features/review/data/data_sources/online/impl/review_online_data_source_impl.dart'
@@ -84,16 +98,25 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i650.AuthRemoteDataSourceImpl(gh<_i59.FirebaseAuth>()));
     gh.factory<_i665.AuthRepo>(
         () => _i990.AuthRepoImpl(gh<_i681.AuthRemoteDataSource>()));
+    gh.factory<_i690.ReadingStatusOnlineDataSource>(() =>
+        _i1035.ReadingStatusOnlineDataSourceImpl(
+            gh<_i974.FirebaseFirestore>()));
     gh.factory<_i1069.ReviewOnlineDataSource>(
         () => _i93.ReviewOnlineDataSourceImpl(gh<_i974.FirebaseFirestore>()));
     gh.factory<_i950.HomeRepo>(
         () => _i21.HomeRepoImpl(gh<_i16.GetBooksOnlineDataSource>()));
+    gh.factory<_i473.ReadingStatusRepo>(() =>
+        _i149.ReadingStatusRepoImpl(gh<_i690.ReadingStatusOnlineDataSource>()));
     gh.factory<_i327.SearchOnlineDataSource>(
         () => _i869.SearchOnlineDataSourceImpl(gh<_i282.ApiManager>()));
     gh.factory<_i317.SignInUseCase>(
         () => _i317.SignInUseCase(gh<_i665.AuthRepo>()));
     gh.factory<_i548.SignUpUseCase>(
         () => _i548.SignUpUseCase(gh<_i665.AuthRepo>()));
+    gh.factory<_i1042.AddReadingStatusUseCase>(
+        () => _i1042.AddReadingStatusUseCase(gh<_i473.ReadingStatusRepo>()));
+    gh.factory<_i498.GetReadingStatusUseCase>(
+        () => _i498.GetReadingStatusUseCase(gh<_i473.ReadingStatusRepo>()));
     gh.factory<_i755.GetBooksUseCase>(
         () => _i755.GetBooksUseCase(gh<_i950.HomeRepo>()));
     gh.factory<_i768.ReviewRepo>(
@@ -104,6 +127,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i115.AddReviewUseCase(gh<_i768.ReviewRepo>()));
     gh.factory<_i853.GetBookReviewsUseCase>(
         () => _i853.GetBookReviewsUseCase(gh<_i768.ReviewRepo>()));
+    gh.factory<_i935.ReadingStatusViewModelCubit>(
+        () => _i935.ReadingStatusViewModelCubit(
+              gh<_i1042.AddReadingStatusUseCase>(),
+              gh<_i498.GetReadingStatusUseCase>(),
+            ));
     gh.factory<_i399.SearchUseCase>(
         () => _i399.SearchUseCase(gh<_i34.SearchRepo>()));
     gh.factory<_i801.HomeViewModelCubit>(
