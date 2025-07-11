@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:mastery_hub_its_task/core/networking/common/api_result.dart';
 
 import '../../domain/contracts/reading_status_repo.dart';
 import '../../domain/entities/reading_status_entity.dart';
@@ -12,12 +13,12 @@ class ReadingStatusRepoImpl implements ReadingStatusRepo {
   ReadingStatusRepoImpl(this._dataSource);
 
   @override
-  Future<void> addReadingStatus(ReadingStatusEntity entity) async {
+  Future<DataResult<void>> addReadingStatus(ReadingStatusEntity entity) async {
     return await _dataSource.addReadingStatus(entity);
   }
 
   @override
-  Future<List<ReadingStatusEntity>> getReadingStatus(
+  Future<DataResult<List<ReadingStatusEntity>>> getReadingStatus(
       String status, String userId) async {
     return await _dataSource.getReadingStatus(status, userId);
   }
