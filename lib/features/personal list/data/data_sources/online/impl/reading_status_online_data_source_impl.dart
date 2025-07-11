@@ -11,6 +11,7 @@ class ReadingStatusOnlineDataSourceImpl
     implements ReadingStatusOnlineDataSource {
   final FirebaseFirestore _firestore;
 
+  @factoryMethod
   ReadingStatusOnlineDataSourceImpl(this._firestore);
 
   @override
